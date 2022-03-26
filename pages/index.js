@@ -3,7 +3,7 @@ import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import React from 'react'
 import styles from '../styles/Home.module.css'
 
-function HomeContents (props) {
+export default function Home (props) {
   return (
     <div>
       <h1 className={styles.title}>
@@ -19,9 +19,4 @@ function HomeContents (props) {
       </p>
     </div>
   )
-}
-
-export default function Home (props) {
-  const PageContent = withDefaultPage(HomeContents)
-  return <PageContent {...props} />
 }
