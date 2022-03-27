@@ -1,4 +1,6 @@
+import { TransitionProvider } from '../src/components/animations/PageTransition'
 import DefaultLayout from '../src/components/layouts/DefaultLayout'
+import TransitionLayout from '../src/components/layouts/TransitionLayout'
 import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import '../styles/globals.css'
 
@@ -11,7 +13,11 @@ function MyApp({ Component, pageProps }) {
   
   return (
     <DefaultLayout>
-      <Component {...pageProps} />
+      <TransitionProvider>
+        <TransitionLayout>
+          <Component {...pageProps} />
+        </TransitionLayout>
+      </TransitionProvider>
     </DefaultLayout>
   )
 }
