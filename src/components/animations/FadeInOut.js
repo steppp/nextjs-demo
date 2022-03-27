@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect'
 import { TransitionContext } from './PageTransition'
 import { gsap } from 'gsap'
@@ -25,7 +25,7 @@ const FadeInOut = ({ children }) => {
     }, [])
 
     // set initial opacity to 0 to avoid FOUC for SSR
-    return <div ref={el} style="opacity: 0;">
+    return <div ref={el} style={{ opacity: 0 }}>
         {children}
     </div>
 }

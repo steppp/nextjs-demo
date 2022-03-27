@@ -1,5 +1,5 @@
 import { gsap } from 'gsap'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect'
 import { TransitionContext } from '../animations/PageTransition'
 

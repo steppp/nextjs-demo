@@ -1,7 +1,10 @@
 import React from 'react'
+import FadeInOut from '../src/components/animations/FadeInOut'
 
 export default function Target(props) {
     return (
-        <h1>Target page!</h1>
+        <FadeInOut>
+            <h1>Target page!</h1>
+        </FadeInOut>
     )
 }
