@@ -5,8 +5,6 @@ import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  console.log(pageProps)
-
   // example of composition (do not use this)
   // const PageComponent = withDefaultPage(Component)
   // return <PageComponent {...pageProps} />

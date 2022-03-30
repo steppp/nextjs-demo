@@ -2,11 +2,11 @@ import Link from 'next/link'
 import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import React from 'react'
 import styles from '../styles/Home.module.css'
-import FadeInOut from '../src/components/animations/FadeInOut'
+import SlideFadeInOut from '../src/components/animations/SlideFadeInOut'
 
 export default function Home(props) {
   return (
-    <FadeInOut>
+    <SlideFadeInOut>
       <div>
         <h1 className={styles.title}>
           My awesome demo website!
@@ -20,6 +20,6 @@ export default function Home(props) {
           </Link>
         </p>
       </div>
-    </FadeInOut>
+    </SlideFadeInOut>
   )
 }

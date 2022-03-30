@@ -5,7 +5,7 @@ import { TransitionContext } from '../animations/PageTransition'
 
 export default function TransitionLayout({ children }) {
     const [displayChildren, setDisplayChildren] = useState(children)
-    const { timeline, background } = useContext(TransitionContext)
+    const { timeline } = useContext(TransitionContext)
     const el = useRef()
 
     useIsomorphicLayoutEffect(() => {
@@ -17,17 +17,11 @@ export default function TransitionLayout({ children }) {
                 timeline.play().then(() => {
                     // outro complete, reset to an empty paused timeline
                     timeline.seek(0).pause().clear()
+                    setDisplayChildren(children)
                 })
             }
         }
     }, [children])
-
-    useIsomorphicLayoutEffect(() => {
-        gsap.to(el.current, {
-            background,
-            duration: 1
-        })
-    }, [background])
 
     return <div ref={el}>
         {displayChildren}
