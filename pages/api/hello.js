@@ -1,5 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+const targetUrl = 'srand.it'
 
 export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+  const responseObj = {
+    visit: targetUrl
+  }
+  console.log(responseObj)
+
+  res.status(200).json(responseObj)
 }
