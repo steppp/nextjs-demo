@@ -10,7 +10,7 @@ export default function Target(props) {
 
     useEffect(() => {
         navBtn.current?.addEventListener('click', router.back)
-    }, [])
+    }, [navBtn])
 
     return (
         <SlideFadeInOut>
