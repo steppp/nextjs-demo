@@ -1,7 +1,7 @@
+import AnimatedGraphic from '../src/components/AnimatedGraphic'
 import { TransitionProvider } from '../src/components/animations/PageTransition'
 import DefaultLayout from '../src/components/layouts/DefaultLayout'
 import TransitionLayout from '../src/components/layouts/TransitionLayout'
-import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
@@ -13,7 +13,9 @@ function MyApp({ Component, pageProps }) {
     <DefaultLayout>
       <TransitionProvider>
         <TransitionLayout>
-          <Component {...pageProps} />
+            <AnimatedGraphic content='🤟'>
+              <Component {...pageProps} />
+            </AnimatedGraphic>
         </TransitionLayout>
       </TransitionProvider>
     </DefaultLayout>
