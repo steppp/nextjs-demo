@@ -30,6 +30,18 @@ const positions = [
 
 const getNextCounterValue = (counter, maxLength) => (counter + 1) % maxLength
 
+/**
+ * Returns two Tweens resulting from splitting the passed timeline
+ * @param {gsap.core.Timeline} tl Timeline to split
+ * @returns An array containing the two halves of the original timeline
+ */
+const halveTimeline = (tl) => {
+    const timelineDuration = tl.duration()
+    const firstHalf = tl.tweenFromTo(0, timelineDuration / 2)
+    const secondHalf = tl.tweenFromTo(timelineDuration / 2, timelineDuration)
+    return [ firstHalf, secondHalf ]
+}
+
 const AnimatedGraphic = ({
     children,
     whenChanges: triggerObj,
