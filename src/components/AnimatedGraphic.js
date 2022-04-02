@@ -1,4 +1,5 @@
 import { useContext, useRef, useState } from 'react'
+import { gsap } from 'gsap'
 import { TransitionContext } from './animations/PageTransition'
 import styles from '../../styles/AnimatedGraphic.base.module.css'
 import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect'
@@ -26,14 +27,35 @@ const positions = [
     }
 ]
 
-const AnimatedGraphic = ({ children, content, ...props }) => {
-    const [timeline, setTimeline] = useContext(TransitionContext)
+const AnimatedGraphic = ({ 
+    children, 
+    whenChanges: triggerObj, 
+    ...props }) => {
+    const { timeline } = useContext(TransitionContext)
     const animatableObjectRef = useRef()
     const [counter, setCounter] = useState(0)
+    const [transform, setTransform] = useState({})
+    const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0})
 
     useIsomorphicLayoutEffect(() => {
+        if (animatableObjectRef.current) {
+            const { height, width } = animatableObjectRef.current.parentElement.getBoundingClientRect()
+            
+            setContainerStyle({ height, width })
+        }
+    }, [animatableObjectRef])
 
-    }, [children])
+    useIsomorphicLayoutEffect(() => {
+        setTransform(positions[counter])
+        setCounter((counter + 1) % positions.length)
+
+        gsap.to(animatableObjectRef.current, {
+            top: transform.y * containerStyle.height,
+            left: transform.x * containerStyle.width,
+            rotate: transform.rotate,
+            duration: 0.5
+        })
+    }, [triggerObj])
 
     return (
         <>
@@ -41,11 +63,10 @@ const AnimatedGraphic = ({ children, content, ...props }) => {
                 <div ref={animatableObjectRef}
                     className={styles.animatedObj}>
                     <div className={styles.animatedObjContent}>
-                        {content}
+                        {children}
                     </div>
                 </div>
             </div>
-            {children}
         </>
     )
 }
