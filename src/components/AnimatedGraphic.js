@@ -11,7 +11,7 @@ const positions = [
         rotate: 47
     },
     {
-        x: -0.1,
+        x: -0.03,
         y: 0.1,
         rotate: 250
     },
@@ -21,7 +21,7 @@ const positions = [
         rotate: 140
     },
     {
-        x: 0.7,
+        x: 0.9,
         y: 0.2,
         rotate: 320
     }
