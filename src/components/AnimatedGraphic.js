@@ -30,29 +30,25 @@ const positions = [
 
 const getNextCounterValue = (counter, maxLength) => (counter + 1) % maxLength
 
-
-
-const AnimatedGraphic = ({ 
-    children, 
-    whenChanges: triggerObj, 
+const AnimatedGraphic = ({
+    children,
+    whenChanges: triggerObj,
     ...props }) => {
     const { timeline } = useContext(TransitionContext)
     const animatableObjectRef = useRef()
     const [counter, setCounter] = useState(0)
-    const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0})
+    const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0 })
 
     useIsomorphicLayoutEffect(() => {
         if (animatableObjectRef.current) {
-            const { height, width } = animatableObjectRef.current.parentElement.getBoundingClientRect()
-            
+            const { height, width } = animatableObjectRef.current.parentElement.getBoundingClientRect()
             setContainerStyle({ height, width })
         }
     }, [animatableObjectRef])
 
     useIsomorphicLayoutEffect(() => {
         const transform = positions[counter]
-        
-        console.log('starting transition..', transform)
+
         gsap.timeline()
             .to(animatableObjectRef.current, {
                 top: transform.y * containerStyle.height,
@@ -61,11 +57,10 @@ const AnimatedGraphic = ({
                 duration: 1
             })
             .play(0.5)
-        
+
         const nextCounterValue = getNextCounterValue(counter, positions.length)
         setCounter(nextCounterValue)
         const nextTransform = positions[nextCounterValue]
-        console.log('scheduling animation..', nextTransform)
 
         const firstHalfTimeline = gsap.timeline()
             .to(animatableObjectRef.current, {
@@ -75,26 +70,21 @@ const AnimatedGraphic = ({
                 duration: 1
             })
             .pause()
-            const firstHalfTween = firstHalfTimeline.tweenFromTo(0, 0.5)
-            
+        const firstHalfTween = firstHalfTimeline.tweenFromTo(0, 0.5)
 
-        timeline.add(
-            firstHalfTween,
-            0
-        )
-    }, [triggerObj])
+
+        timeline.add(firstHalfTween, 0)
+    }, [triggerObj, containerStyle])
 
     return (
-        <>
-            <div className={styles.animatedObjContainer}>
-                <div ref={animatableObjectRef}
-                    className={styles.animatedObj}>
-                    <div className={styles.animatedObjContent}>
-                        {children}
-                    </div>
+        <div className={styles.animatedObjContainer}>
+            <div ref={animatableObjectRef}
+                className={styles.animatedObj}>
+                <div className={styles.animatedObjContent}>
+                    {children}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

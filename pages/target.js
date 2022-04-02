@@ -15,11 +15,11 @@ export default function Target(props) {
     return (
         <SlideFadeInOut>
             <div>
-                <h1 className={ styles.title }>Target page!</h1>
+                <h1 className={ styles.title }>Look at that!🚀</h1>
 
                 <p className={ styles.description }>
                     <button ref={navBtn} className={ styles.button }>
-                        BACK
+                        ⏮BACK
                     </button>
                 </p>
             </div>
