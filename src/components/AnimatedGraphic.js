@@ -25,7 +25,12 @@ const positions = [
         y: 0.2,
         rotate: 320
     }
+
 ]
+
+const getNextCounterValue = (counter, maxLength) => (counter + 1) % maxLength
+
+
 
 const AnimatedGraphic = ({ 
     children, 
@@ -34,7 +39,6 @@ const AnimatedGraphic = ({
     const { timeline } = useContext(TransitionContext)
     const animatableObjectRef = useRef()
     const [counter, setCounter] = useState(0)
-    const [transform, setTransform] = useState({})
     const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0})
 
     useIsomorphicLayoutEffect(() => {
@@ -46,15 +50,38 @@ const AnimatedGraphic = ({
     }, [animatableObjectRef])
 
     useIsomorphicLayoutEffect(() => {
-        setTransform(positions[counter])
-        setCounter((counter + 1) % positions.length)
+        const transform = positions[counter]
+        
+        console.log('starting transition..', transform)
+        gsap.timeline()
+            .to(animatableObjectRef.current, {
+                top: transform.y * containerStyle.height,
+                left: transform.x * containerStyle.width,
+                rotate: transform.rotate,
+                duration: 1
+            })
+            .play(0.5)
+        
+        const nextCounterValue = getNextCounterValue(counter, positions.length)
+        setCounter(nextCounterValue)
+        const nextTransform = positions[nextCounterValue]
+        console.log('scheduling animation..', nextTransform)
 
-        gsap.to(animatableObjectRef.current, {
-            top: transform.y * containerStyle.height,
-            left: transform.x * containerStyle.width,
-            rotate: transform.rotate,
-            duration: 0.5
-        })
+        const firstHalfTimeline = gsap.timeline()
+            .to(animatableObjectRef.current, {
+                top: nextTransform.y * containerStyle.height,
+                left: nextTransform.x * containerStyle.width,
+                rotate: nextTransform.rotate,
+                duration: 1
+            })
+            .pause()
+            const firstHalfTween = firstHalfTimeline.tweenFromTo(0, 0.5)
+            
+
+        timeline.add(
+            firstHalfTween,
+            0
+        )
     }, [triggerObj])
 
     return (
