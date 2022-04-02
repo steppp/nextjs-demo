@@ -9,7 +9,9 @@ export default function Home(props) {
     <SlideFadeInOut>
       <div>
         <h1 className={styles.title}>
-          My awesome <a href="https://nextjs.org" target="_blank">Next.js</a> website!
+          My awesome 
+          <a href="https://nextjs.org" target="_blank" rel='noreferrer'> Next.js </a> 
+          website!
         </h1>
 
         <p className={styles.description}>
