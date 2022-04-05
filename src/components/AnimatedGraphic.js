@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { TransitionContext } from './animations/PageTransition'
-import styles from '../../styles/AnimatedGraphic.base.module.css'
+import styles from '../../styles/AnimatedGraphic.base.module.scss'
 import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect'
 
 /** @const {number} */

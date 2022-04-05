@@ -1,7 +1,7 @@
 import { createRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import SlideFadeInOut from '../src/components/animations/SlideFadeInOut'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 
 export default function Target(props) {
     const navBtn = createRef()
