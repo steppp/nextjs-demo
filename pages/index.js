@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { withDefaultPage } from '../src/compositors/withDefaultPage'
 import React from 'react'
 import styles from '../styles/Home.module.css'
 import SlideFadeInOut from '../src/components/animations/SlideFadeInOut'
@@ -9,8 +8,8 @@ export default function Home(props) {
     <SlideFadeInOut>
       <div>
         <h1 className={styles.title}>
-          My awesome 
-          <a href="https://nextjs.org" target="_blank" rel='noreferrer'> Next.js </a> 
+          My awesome
+          <a href="https://nextjs.org" target="_blank" rel='noreferrer'>Next.js</a>
           website!
         </h1>
 

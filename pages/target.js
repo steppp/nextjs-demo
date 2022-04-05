@@ -1,4 +1,3 @@
-import React from 'react'
 import { createRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import SlideFadeInOut from '../src/components/animations/SlideFadeInOut'
@@ -10,16 +9,16 @@ export default function Target(props) {
 
     useEffect(() => {
         navBtn.current?.addEventListener('click', router.back)
-    }, [navBtn])
+    }, [navBtn, router])
 
     return (
         <SlideFadeInOut>
             <div>
-                <h1 className={ styles.title }>Look at that!🚀</h1>
+                <h1 className={ styles.title }>Look at that! 🚀</h1>
 
                 <p className={ styles.description }>
                     <button ref={navBtn} className={ styles.button }>
-                        ⏮BACK
+                        ⏮ BACK
                     </button>
                 </p>
             </div>
