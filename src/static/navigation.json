@@ -1,0 +1,26 @@
+{
+    "left-menu": {
+        "contents": [
+            {
+                "type": "image",
+                "url": "https://avatars.githubusercontent.com/u/11666622?v=4",
+                "link": "/"
+            }
+        ]
+    },
+    "center-menu": {},
+    "right-menu": {
+        "contents": [
+            {
+                "type": "link",
+                "url": "https://github.com/steppp",
+                "text": "Github profile"
+            },
+            {
+                "type": "link",
+                "url": "https://github.com/steppp/nextjs-demo",
+                "text": "Repo"
+            }
+        ]
+    }
+}

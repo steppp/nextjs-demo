@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import styles from '../../../styles/Home.module.scss'
+import Navbar from '../Navbar'
 
 export default function DefaultLayout({ children }) {
     return (
@@ -13,6 +14,8 @@ export default function DefaultLayout({ children }) {
             </Head>
 
             <main className={styles.main}>
+                <Navbar />
+
                 {children}
             </main>
         </div>
