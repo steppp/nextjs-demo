@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { TransitionContext } from './animations/PageTransition'
 import styles from '../../styles/AnimatedGraphic.base.module.scss'
 import useIsomorphicLayoutEffect from '../hooks/useIsomorphicLayoutEffect'
+import useViewportSize from '../hooks/useViewportSize'
 
 /** @const {number} */
 const ANIMATION_DURATION = 1
@@ -119,8 +120,10 @@ const AnimatedGraphic = ({
     const animatableObjectRef = useRef()
     const [counter, setCounter] = useState(0)
     const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0 })
+    const viewportSize = useViewportSize()
 
-    useIsomorphicLayoutEffect(() => {
+    useIsomorphicLayoutEffect((prevState) => {
+        console.log(prevState)
         if (animatableObjectRef.current) {
             const { height, width } = animatableObjectRef.current.parentElement.getBoundingClientRect()
             setContainerStyle({ height, width })
