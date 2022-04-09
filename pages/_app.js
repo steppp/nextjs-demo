@@ -1,4 +1,4 @@
-import AnimatedGraphic from '../src/components/AnimatedGraphic'
+import AnimatedGraphic from '../src/components/animations/AnimatedGraphic'
 import { TransitionProvider } from '../src/components/animations/PageTransition'
 import DefaultLayout from '../src/components/layouts/DefaultLayout'
 import TransitionLayout from '../src/components/layouts/TransitionLayout'

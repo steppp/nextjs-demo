@@ -8,20 +8,20 @@ function useViewportSize() {
     }
     const [size, setSize] = useState(initialState)
 
-    useIsomorphicLayoutEffect(() => {
-        function handleSizeChange() {
-            setSize({
-                width: window.innerWidth,
-                height: window.innerHeight
-            })
-        }
+    function handleSizeChange() {
+        setSize({
+            width: window.innerWidth,
+            height: window.innerHeight
+        })
+    }
 
+    useIsomorphicLayoutEffect(() => {
         handleSizeChange()
 
         window.addEventListener('resize', handleSizeChange)
         return () => window.removeEventListener('resize', handleSizeChange)
     }, [])
-    
+
     return size
 }
 
