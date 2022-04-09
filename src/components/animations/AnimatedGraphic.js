@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { TransitionContext } from './PageTransition'
 import styles from '../../../styles/AnimatedGraphic.base.module.scss'
 import useIsomorphicLayoutEffect from '../../hooks/useIsomorphicLayoutEffect'
+import useViewportSize from '../../hooks/useViewportSize'
 
 /** @const {number} */
 const ANIMATION_DURATION = 1
@@ -119,15 +120,30 @@ const AnimatedGraphic = ({
     const animatableObjectRef = useRef()
     const [counter, setCounter] = useState(0)
     const [containerStyle, setContainerStyle] = useState({ height: 0, width: 0 })
+    const sizes = useViewportSize()
+    const [ready, setReady] = useState(false)
 
     useIsomorphicLayoutEffect(() => {
+        // do nothing while we do not have a value for the window sizes
+        if (!sizes.height || !sizes.width) {
+            return
+        }
+
         if (animatableObjectRef.current) {
             const { height, width } = animatableObjectRef.current.parentElement.getBoundingClientRect()
             setContainerStyle({ height, width })
+            // now that the container size is set, we can signal that the
+            // component is ready to play animations
+            setReady(true)
         }
-    }, [animatableObjectRef])
+    }, [animatableObjectRef, sizes])
 
     useIsomorphicLayoutEffect(() => {
+        // do not play animations until we have all the data we need
+        if (!ready) {
+            return
+        }
+
         const endTlParams = {
             target: animatableObjectRef.current,
             transform: positions[counter],
@@ -135,6 +151,7 @@ const AnimatedGraphic = ({
         }
         const endTl = buildAnimationTimeline(endTlParams)
         const [, endTween ] = halveTimeline(endTl)
+        endTween.vars.id = 'enter-tween'
         endTween.play()
 
         const nextCounterValue = getNextCounterValue(counter, positions.length)
@@ -148,9 +165,28 @@ const AnimatedGraphic = ({
         }
         const startTl = buildAnimationTimeline(startTlParams)
         const [ startTween ] = halveTimeline(startTl)
+        startTween.vars.id = 'exit-tween'
 
         timeline.add(startTween.play(), 0)
-    }, [triggerObj, containerStyle])
+        // when the ready state changes we can, and should, run this hook
+    }, [triggerObj, animatableObjectRef, ready])
+
+    // useIsomorphicLayoutEffect(() => {
+    //     // remove the currently scheduled exit timeline
+    //     timeline.getById('exit-tween').kill()
+
+    //     const startTlParams = {
+    //         target: animatableObjectRef.current,
+    //         transform: positions[counter],
+    //         normalizationValues: containerStyle,
+    //         duration: ANIMATION_DURATION
+    //     }
+    //     const startTl = buildAnimationTimeline(startTlParams)
+    //     const [ startTween ] = halveTimeline(startTl)
+    //     startTween.vars.id = 'exit-tween'
+
+    //     timeline.add(startTween.play(), 0)
+    // }, [sizes])
 
     return (
         <div className={styles.animated_obj_container}>
