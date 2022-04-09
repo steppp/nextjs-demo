@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import React from 'react'
 import styles from '../../../styles/Home.module.scss'
-import Navbar from '../Navbar'
+import Navbar from '../Navbar/Navbar'
 
 export default function DefaultLayout({ children }) {
     return (

@@ -1,25 +1,27 @@
 {
-    "left-menu": {
+    "leftMenu": {
         "contents": [
             {
                 "type": "image",
-                "url": "https://avatars.githubusercontent.com/u/11666622?v=4",
+                "src": "https://avatars.githubusercontent.com/u/11666622?v=4",
                 "link": "/"
             }
         ]
     },
-    "center-menu": {},
-    "right-menu": {
+    "centerMenu": {},
+    "rightMenu": {
         "contents": [
             {
                 "type": "link",
-                "url": "https://github.com/steppp",
-                "text": "Github profile"
+                "link": "https://github.com/steppp",
+                "text": "Github profile",
+                "target": "_blank"
             },
             {
                 "type": "link",
-                "url": "https://github.com/steppp/nextjs-demo",
-                "text": "Repo"
+                "link": "https://github.com/steppp/nextjs-demo",
+                "text": "Repo",
+                "target": "_blank"
             }
         ]
     }

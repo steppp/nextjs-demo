@@ -153,10 +153,10 @@ const AnimatedGraphic = ({
     }, [triggerObj, containerStyle])
 
     return (
-        <div className={styles.animatedObjContainer}>
+        <div className={styles.animated_obj_container}>
             <div ref={animatableObjectRef}
-                className={styles.animatedObj}>
-                <div className={styles.animatedObjContent}>
+                className={styles.animated_obj}>
+                <div className={styles.animated_obj_content}>
                     {children}
                 </div>
             </div>
