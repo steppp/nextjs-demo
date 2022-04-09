@@ -8,6 +8,9 @@ import useViewportSize from '../../hooks/useViewportSize'
 /** @const {number} */
 const ANIMATION_DURATION = 1
 
+const ENTER_TWEEN_ID = 'enter_tween'
+const EXIT_TWEEN_ID = 'exit_tween'
+
 /**
  * Transform values which will be applied to the animatable object
  * @typedef {Object} AnimationTransform
@@ -112,6 +115,22 @@ const buildAnimationTimeline = (config) => {
         .pause()
 }
 
+const runEnterAnimation = (params) => {
+    const endTl = buildAnimationTimeline(params)
+    const [, endTween ] = halveTimeline(endTl)
+    endTween.vars.id = ENTER_TWEEN_ID
+    endTween.play()
+
+}
+
+const setupExitAnimation = (targetTimeline, params) => {
+    const startTl = buildAnimationTimeline(params)
+    const [ startTween ] = halveTimeline(startTl)
+    startTween.vars.id = EXIT_TWEEN_ID
+
+    targetTimeline.add(startTween.play(), 0)
+}
+
 const AnimatedGraphic = ({
     children,
     whenChanges: triggerObj,
@@ -149,10 +168,7 @@ const AnimatedGraphic = ({
             transform: positions[counter],
             normalizationValues: containerStyle,
         }
-        const endTl = buildAnimationTimeline(endTlParams)
-        const [, endTween ] = halveTimeline(endTl)
-        endTween.vars.id = 'enter-tween'
-        endTween.play()
+        runEnterAnimation(endTlParams)
 
         const nextCounterValue = getNextCounterValue(counter, positions.length)
         setCounter(nextCounterValue)
@@ -163,30 +179,28 @@ const AnimatedGraphic = ({
             normalizationValues: containerStyle,
             duration: ANIMATION_DURATION
         }
-        const startTl = buildAnimationTimeline(startTlParams)
-        const [ startTween ] = halveTimeline(startTl)
-        startTween.vars.id = 'exit-tween'
+        setupExitAnimation(timeline, startTlParams)
 
-        timeline.add(startTween.play(), 0)
         // when the ready state changes we can, and should, run this hook
     }, [triggerObj, animatableObjectRef, ready])
 
-    // useIsomorphicLayoutEffect(() => {
-    //     // remove the currently scheduled exit timeline
-    //     timeline.getById('exit-tween').kill()
+    useIsomorphicLayoutEffect(() => {
+        // remove the currently scheduled exit timeline
+        const oldTween = timeline.getById(EXIT_TWEEN_ID)
+        if (!oldTween) {
+            return
+        }
 
-    //     const startTlParams = {
-    //         target: animatableObjectRef.current,
-    //         transform: positions[counter],
-    //         normalizationValues: containerStyle,
-    //         duration: ANIMATION_DURATION
-    //     }
-    //     const startTl = buildAnimationTimeline(startTlParams)
-    //     const [ startTween ] = halveTimeline(startTl)
-    //     startTween.vars.id = 'exit-tween'
+        timeline.remove(oldTween)
 
-    //     timeline.add(startTween.play(), 0)
-    // }, [sizes])
+        const startTlParams = {
+            target: animatableObjectRef.current,
+            transform: positions[counter],
+            normalizationValues: containerStyle,
+            duration: ANIMATION_DURATION
+        }
+        setupExitAnimation(timeline, startTlParams)
+    }, [sizes])
 
     return (
         <div className={styles.animated_obj_container}>
