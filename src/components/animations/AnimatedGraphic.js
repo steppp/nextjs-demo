@@ -142,6 +142,8 @@ const AnimatedGraphic = ({
     const sizes = useViewportSize()
     const [ready, setReady] = useState(false)
 
+    // update the sizes values to use when computing the target position for the animation object
+    // when the ref to it is set or when the window size changes
     useIsomorphicLayoutEffect(() => {
         // do nothing while we do not have a value for the window sizes
         if (!sizes.height || !sizes.width) {
@@ -157,6 +159,8 @@ const AnimatedGraphic = ({
         }
     }, [animatableObjectRef, sizes])
 
+    // play first half of the animation while the previous triggerObj exits
+    // and schedule the second half to play while the new triggerObj enters
     useIsomorphicLayoutEffect(() => {
         // do not play animations until we have all the data we need
         if (!ready) {
@@ -184,6 +188,8 @@ const AnimatedGraphic = ({
         // when the ready state changes we can, and should, run this hook
     }, [triggerObj, animatableObjectRef, ready])
 
+    // replace the second half tween currently scheduled in the timeline
+    // with an updated one when the size of the window changes
     useIsomorphicLayoutEffect(() => {
         // remove the currently scheduled exit timeline
         const oldTween = timeline.getById(EXIT_TWEEN_ID)
