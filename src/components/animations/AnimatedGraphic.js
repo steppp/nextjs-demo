@@ -151,6 +151,7 @@ const AnimatedGraphic = ({
         }
         const endTl = buildAnimationTimeline(endTlParams)
         const [, endTween ] = halveTimeline(endTl)
+        endTween.vars.id = 'enter-tween'
         endTween.play()
 
         const nextCounterValue = getNextCounterValue(counter, positions.length)
@@ -164,10 +165,28 @@ const AnimatedGraphic = ({
         }
         const startTl = buildAnimationTimeline(startTlParams)
         const [ startTween ] = halveTimeline(startTl)
+        startTween.vars.id = 'exit-tween'
 
         timeline.add(startTween.play(), 0)
         // when the ready state changes we can, and should, run this hook
     }, [triggerObj, animatableObjectRef, ready])
+
+    // useIsomorphicLayoutEffect(() => {
+    //     // remove the currently scheduled exit timeline
+    //     timeline.getById('exit-tween').kill()
+
+    //     const startTlParams = {
+    //         target: animatableObjectRef.current,
+    //         transform: positions[counter],
+    //         normalizationValues: containerStyle,
+    //         duration: ANIMATION_DURATION
+    //     }
+    //     const startTl = buildAnimationTimeline(startTlParams)
+    //     const [ startTween ] = halveTimeline(startTl)
+    //     startTween.vars.id = 'exit-tween'
+
+    //     timeline.add(startTween.play(), 0)
+    // }, [sizes])
 
     return (
         <div className={styles.animatedObjContainer}>
